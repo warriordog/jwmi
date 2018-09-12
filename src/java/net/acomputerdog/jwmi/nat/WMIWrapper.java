@@ -160,6 +160,10 @@ public interface WMIWrapper extends StdCallLibrary {
      * @return Return the new instance
      */
     static WMIWrapper createInstance() {
+        if (INSTANCE != null) {
+            throw new IllegalStateException("Instance already exists");
+        }
+
         try {
             return Native.loadLibrary("libwmi", WMIWrapper.class);
         } catch (Throwable t) {
