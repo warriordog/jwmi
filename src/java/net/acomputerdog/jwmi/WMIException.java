@@ -2,6 +2,9 @@ package net.acomputerdog.jwmi;
 
 import com.sun.jna.platform.win32.WinNT;
 
+/**
+ * Any exception that occurs in WMI code
+ */
 public class WMIException extends RuntimeException {
     private final WinNT.HRESULT hresult;
 

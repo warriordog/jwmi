@@ -5,6 +5,11 @@ import com.sun.jna.ptr.PointerByReference;
 import net.acomputerdog.jwmi.nat.WMIWrapper;
 import net.acomputerdog.jwmi.wbem.WbemLocator;
 
+/**
+ * jWMI main class.
+ *
+ * Should be used via JWMI.getInstance()
+ */
 public class JWMI {
     private static JWMI INSTANCE;
 
@@ -19,6 +24,11 @@ public class JWMI {
         }
     }
 
+    /**
+     * Creates a new instance of WbemLocator
+     *
+     * @return Returns a new WbemLocator
+     */
     public WbemLocator createWbemLocator() {
         PointerByReference locatorRef = new PointerByReference();
 
@@ -31,6 +41,14 @@ public class JWMI {
         }
     }
 
+    /**
+     * Gets or creates the shared instance of JWMI.
+     *
+     * A method is used instead of a static field because this way any exceptions will bubble back up
+     * instead of being swallowed or thrown at odd times.
+     *
+     * @return Return the JWMI instance
+     */
     public static JWMI getInstance() {
         if (INSTANCE != null) {
             return INSTANCE;

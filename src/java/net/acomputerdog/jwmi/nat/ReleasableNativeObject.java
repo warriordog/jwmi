@@ -4,7 +4,7 @@ import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinNT;
 import net.acomputerdog.jwmi.WMIException;
 
-public class ReleasableNativeObject extends NativeObject implements Releasable {
+public abstract class ReleasableNativeObject extends NativeObject implements Releasable {
     public ReleasableNativeObject(Pointer pointer) {
         super(pointer);
     }
