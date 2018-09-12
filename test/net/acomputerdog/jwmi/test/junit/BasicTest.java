@@ -1,7 +1,9 @@
 package net.acomputerdog.jwmi.test.junit;
 
 import net.acomputerdog.jwmi.JWMI;
+import net.acomputerdog.jwmi.WMIException;
 import net.acomputerdog.jwmi.nat.ReleasableVariant;
+import net.acomputerdog.jwmi.nat.WMIWrapper;
 import net.acomputerdog.jwmi.wbem.EnumWbemClassObject;
 import net.acomputerdog.jwmi.wbem.WbemClassObject;
 import net.acomputerdog.jwmi.wbem.WbemServices;
@@ -91,6 +93,13 @@ public class BasicTest {
                 Assertions.assertEquals("Winmgmt", procId.stringValue());
             }
         }
+    }
+
+    @Test
+    public void testNullBSTR() {
+        WMIException e = Assertions.assertThrows(WMIException.class, () -> services.execQuery(null));
+
+        Assertions.assertEquals(WMIWrapper.WBEM_E_INVALID_PARAMETER, e.getHresult().longValue());
     }
 
     @AfterAll
