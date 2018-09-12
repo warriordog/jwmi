@@ -38,3 +38,9 @@ buildNumber.properties
 # IntelliJ IDEA files
 .idea/
 *.iml
+
+# C++ object files
+*.dll
+*.exp
+*.obj
+*.lib
