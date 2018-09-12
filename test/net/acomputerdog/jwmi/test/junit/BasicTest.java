@@ -2,7 +2,6 @@ package net.acomputerdog.jwmi.test.junit;
 
 import net.acomputerdog.jwmi.JWMI;
 import net.acomputerdog.jwmi.nat.ReleasableVariant;
-import net.acomputerdog.jwmi.nat.WMIWrapper;
 import net.acomputerdog.jwmi.wbem.EnumWbemClassObject;
 import net.acomputerdog.jwmi.wbem.WbemClassObject;
 import net.acomputerdog.jwmi.wbem.WbemServices;
@@ -94,25 +93,8 @@ public class BasicTest {
         }
     }
 
-    @Test
-    public void testIntProperty() {
-        List<WbemClassObject> results = services.execQueryBuffered(WINMGMT_QUERY);
-        Assertions.assertEquals(1, results.size());
-        try (WbemClassObject clsObj = results.get(0)) {
-            try (ReleasableVariant state = clsObj.get("State")) {
-                try (ReleasableVariant procId = clsObj.get("ProcessId")) {
-                    if ("Running".equals(state.stringValue())) {
-                        Assertions.assertNotEquals(0, procId.intValue());
-                    } else {
-                        Assertions.assertEquals(0, procId.intValue());
-                    }
-                }
-            }
-        }
-    }
-
     @AfterAll
     public static void finish() {
-        WMIWrapper.INSTANCE.closeCOM();
+        services.release();
     }
 }
