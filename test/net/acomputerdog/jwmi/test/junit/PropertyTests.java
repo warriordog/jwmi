@@ -31,6 +31,11 @@ public class PropertyTests {
     }
 
     @Test
+    public void testStringPropertyQuick() {
+        Assertions.assertEquals("Winmgmt", classObject.getString("Name"));
+    }
+
+    @Test
     public void testBooleanProperty() {
         // This service handles WMI, so it must be running
         try (ReleasableVariant started = classObject.get("Started")) {
@@ -39,11 +44,23 @@ public class PropertyTests {
     }
 
     @Test
-    public void testIntProperties() {
+    public void testBooleanPropertyQuick() {
+        // This service handles WMI, so it must be running
+        Assertions.assertTrue(classObject.getBoolean("Started"));
+    }
+
+    @Test
+    public void testIntProperty() {
         // This services handles WMI, so it must have a process w/ a process ID
         try (ReleasableVariant procId = classObject.get("ProcessId")) {
             Assertions.assertNotEquals(0, procId.intValue());
         }
+    }
+
+    @Test
+    public void testIntPropertyQuick() {
+        // This services handles WMI, so it must have a process w/ a process ID
+        Assertions.assertNotEquals(0, classObject.getInt("ProcessId"));
     }
 
     @AfterAll

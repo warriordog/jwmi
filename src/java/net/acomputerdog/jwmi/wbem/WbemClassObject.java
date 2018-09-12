@@ -38,4 +38,40 @@ public class WbemClassObject extends ReleasableNativeObject{
             throw new WMIException("WMI error occurred: 0x" + Long.toHexString(result.longValue()), result);
         }
     }
+
+    /**
+     * Gets a the value of a property as a String.  Automatically closes the containing VARIANT.
+     *
+     * @param name Name of the property to access
+     * @return Return the string value of the property
+     */
+    public String getString(String name) {
+        try (ReleasableVariant str = get(name)) {
+            return str.stringValue();
+        }
+    }
+
+    /**
+     * Gets a the value of a property as an int.  Automatically closes the containing VARIANT.
+     *
+     * @param name Name of the property to access
+     * @return Return the int value of the property
+     */
+    public int getInt(String name) {
+        try (ReleasableVariant str = get(name)) {
+            return str.intValue();
+        }
+    }
+
+    /**
+     * Gets a the value of a property as a boolean.  Automatically closes the containing VARIANT.
+     *
+     * @param name Name of the property to access
+     * @return Return the boolean value of the property
+     */
+    public boolean getBoolean(String name) {
+        try (ReleasableVariant str = get(name)) {
+            return str.booleanValue();
+        }
+    }
 }
