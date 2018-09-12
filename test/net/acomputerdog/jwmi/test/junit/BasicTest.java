@@ -11,9 +11,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 public class BasicTest {
 
     private static final String SERVICES_QUERY = "SELECT * FROM Win32_Service";
+
+    private static final String WINMGMT_QUERY = "SELECT * FROM Win32_Service WHERE Name='Winmgmt'";
 
     private static WbemServices services;
 
@@ -75,6 +79,34 @@ public class BasicTest {
         try (WbemClassObject clsObj = services.execQuerySingle(SERVICES_QUERY)) {
             try (ReleasableVariant name = clsObj.get("Name")) {
                 Assertions.assertEquals("AJRouter", name.stringValue());
+            }
+        }
+    }
+
+    @Test
+    public void testWhere() {
+        List<WbemClassObject> results = services.execQueryBuffered(WINMGMT_QUERY);
+        Assertions.assertEquals(1, results.size());
+        try (WbemClassObject clsObj = results.get(0)) {
+            try (ReleasableVariant procId = clsObj.get("Name")) {
+                Assertions.assertEquals("Winmgmt", procId.stringValue());
+            }
+        }
+    }
+
+    @Test
+    public void testIntProperty() {
+        List<WbemClassObject> results = services.execQueryBuffered(WINMGMT_QUERY);
+        Assertions.assertEquals(1, results.size());
+        try (WbemClassObject clsObj = results.get(0)) {
+            try (ReleasableVariant state = clsObj.get("State")) {
+                try (ReleasableVariant procId = clsObj.get("ProcessId")) {
+                    if ("Running".equals(state.stringValue())) {
+                        Assertions.assertNotEquals(0, procId.intValue());
+                    } else {
+                        Assertions.assertEquals(0, procId.intValue());
+                    }
+                }
             }
         }
     }
