@@ -1,7 +1,7 @@
 jWMI - java bindings for the Windows Management Interface
 ---
 
-#### Introduction
+### Introduction
 
 jWMI is a library that provides Java bindings for the Windows Management Interface (WMI).  It allows access to WMI objects without the need to write any native code.
 
@@ -13,7 +13,7 @@ jWMI is made of two parts:
 Currently jWMI implements only a small subset of the WMI library, and many method arguments are hard-coded (to simplify usage on the java side).
 Over time the library will be expanded to cover all WMI functions and possibly expose flag arguments to allow fine-grained control.
 
-#### Compiling
+### Compiling
 
 For now jWMI must be built on windows due to most cross-compilers not supporting WMI.
 
