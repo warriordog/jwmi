@@ -2,6 +2,8 @@ package net.acomputerdog.jwmi;
 
 import com.sun.jna.platform.win32.WinNT;
 import com.sun.jna.ptr.PointerByReference;
+import net.acomputerdog.jwmi.ex.NativeHresultException;
+import net.acomputerdog.jwmi.ex.WMIException;
 import net.acomputerdog.jwmi.nat.WMIWrapper;
 import net.acomputerdog.jwmi.wbem.WbemLocator;
 
@@ -20,7 +22,7 @@ public class JWMI {
 
         // check for errors
         if (hresult.intValue() != WMIWrapper.S_OK) {
-            throw new WMIException("Unable to open COM: 0x" + Integer.toHexString(hresult.intValue()), hresult);
+            throw new NativeHresultException("Unable to open COM: 0x" + Integer.toHexString(hresult.intValue()), hresult);
         }
     }
 
@@ -39,7 +41,7 @@ public class JWMI {
         if (hresult.intValue() == WMIWrapper.S_OK) {
             return new WbemLocator(locatorRef.getValue());
         } else {
-            throw new WMIException("Error creating locator: 0x" + Integer.toHexString(hresult.intValue()), hresult);
+            throw new NativeHresultException("Unable to create IWbemLocator: 0x" + Integer.toHexString(hresult.intValue()), hresult);
         }
     }
 

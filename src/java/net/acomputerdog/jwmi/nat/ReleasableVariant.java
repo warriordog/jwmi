@@ -3,7 +3,7 @@ package net.acomputerdog.jwmi.nat;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.Variant;
 import com.sun.jna.platform.win32.WinNT;
-import net.acomputerdog.jwmi.WMIException;
+import net.acomputerdog.jwmi.ex.WMIException;
 
 /**
  * Extension of JNA Variant that can be released.  This class must be used over the JNA implementation because
@@ -44,7 +44,7 @@ public class ReleasableVariant extends Variant.VARIANT implements Releasable {
         WinNT.HRESULT hresult = WMIWrapper.INSTANCE.ClearVariant(getPointer());
 
         if (hresult.intValue() != WMIWrapper.S_OK) {
-            throw new WMIException("Error clearing variant: 0x" + Integer.toHexString(hresult.intValue()), hresult);
+            throw new WMIException("Error clearing variant: 0x" + Integer.toHexString(hresult.intValue()), hresult, this.getPointer());
         }
     }
 

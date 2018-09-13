@@ -4,7 +4,7 @@ import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WTypes.BSTR;
 import com.sun.jna.platform.win32.WinNT.HRESULT;
 import com.sun.jna.ptr.PointerByReference;
-import net.acomputerdog.jwmi.WMIException;
+import net.acomputerdog.jwmi.ex.WMIException;
 import net.acomputerdog.jwmi.nat.ReleasableNativeObject;
 import net.acomputerdog.jwmi.nat.WMIWrapper;
 
@@ -43,7 +43,7 @@ public class WbemServices extends ReleasableNativeObject {
         if (result.intValue() == WMIWrapper.S_OK) {
             return new EnumWbemClassObject(clsObjEnum.getValue());
         } else {
-            throw new WMIException("WMI error occurred: 0x" + Integer.toHexString(result.intValue()), result);
+            throw new WMIException("Error executing query: 0x" + Integer.toHexString(result.intValue()), result, this);
         }
     }
 

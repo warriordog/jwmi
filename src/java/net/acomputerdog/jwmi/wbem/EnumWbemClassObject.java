@@ -4,7 +4,7 @@ import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinNT;
 import com.sun.jna.ptr.PointerByReference;
-import net.acomputerdog.jwmi.WMIException;
+import net.acomputerdog.jwmi.ex.WMIException;
 import net.acomputerdog.jwmi.nat.ReleasableNativeObject;
 import net.acomputerdog.jwmi.nat.WMIWrapper;
 
@@ -64,7 +64,7 @@ public class EnumWbemClassObject extends ReleasableNativeObject implements Itera
 
         // If it did not return a value or hit the end, then it failed
         if (result.intValue() != WMIWrapper.WBEM_S_NO_ERROR && result.intValue() != WMIWrapper.WBEM_S_FALSE) {
-            throw new WMIException("Error getting next object: 0x" + Integer.toHexString(result.intValue()), result);
+            throw new WMIException("Error getting next object: 0x" + Integer.toHexString(result.intValue()), result, this);
         }
 
         // If we got something, then it is the next value.  Otherwise set next to null.

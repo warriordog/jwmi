@@ -1,7 +1,7 @@
 package net.acomputerdog.jwmi.test.junit;
 
 import net.acomputerdog.jwmi.JWMI;
-import net.acomputerdog.jwmi.WMIException;
+import net.acomputerdog.jwmi.ex.WMIException;
 import net.acomputerdog.jwmi.nat.ReleasableVariant;
 import net.acomputerdog.jwmi.nat.WMIWrapper;
 import net.acomputerdog.jwmi.wbem.EnumWbemClassObject;

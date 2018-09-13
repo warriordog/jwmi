@@ -2,7 +2,7 @@ package net.acomputerdog.jwmi.nat;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinNT;
-import net.acomputerdog.jwmi.WMIException;
+import net.acomputerdog.jwmi.ex.WMIException;
 
 /**
  * A native object that can be released
@@ -34,7 +34,7 @@ public abstract class ReleasableNativeObject extends NativeObject implements Rel
         WinNT.HRESULT hresult = WMIWrapper.INSTANCE.IUnknown_Release(this.getPointer());
 
         if (hresult.intValue() != WMIWrapper.S_OK) {
-            throw new WMIException("Error releasing object: 0x" + Integer.toHexString(hresult.intValue()), hresult);
+            throw new WMIException("Error releasing object: 0x" + Integer.toHexString(hresult.intValue()), hresult, this);
         }
     }
 
