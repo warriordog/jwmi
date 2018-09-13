@@ -14,6 +14,11 @@ import net.acomputerdog.jwmi.WMIException;
  */
 public class ReleasableVariant extends Variant.VARIANT implements Releasable {
     /**
+     * If release() has been called on this object
+     */
+    private boolean released = false;
+
+    /**
      * Creates a ReleasableVariant via a pointer to a native VARIANT
      * @param pointer Pointer to native struct
      */
@@ -30,11 +35,30 @@ public class ReleasableVariant extends Variant.VARIANT implements Releasable {
 
     @Override
     public void release() {
+        if (released) {
+            throw new IllegalStateException("Object has already been released");
+        }
+        released = true;
+
         // clear the variant
         WinNT.HRESULT hresult = WMIWrapper.INSTANCE.ClearVariant(getPointer());
 
         if (hresult.intValue() != WMIWrapper.S_OK) {
-            throw new WMIException("Exception clearing variant: 0x" + Integer.toHexString(hresult.intValue()), hresult);
+            throw new WMIException("Error clearing variant: 0x" + Integer.toHexString(hresult.intValue()), hresult);
+        }
+    }
+
+    @Override
+    public boolean isReleased() {
+        return released;
+    }
+
+    @Override
+    protected void finalize() {
+        if (!released) {
+            System.err.println("Variant was not cleared: " + this.getPointer().toString());
+
+            this.release();
         }
     }
 }

@@ -2,6 +2,8 @@ package net.acomputerdog.jwmi.nat;
 
 import com.sun.jna.Pointer;
 
+import java.util.Objects;
+
 /**
  * Superclass for any java implementation of a native WMI class
  */
@@ -35,5 +37,19 @@ public abstract class NativeObject {
      */
     public void setPointer(Pointer pointer) {
         this.pointer = pointer;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof NativeObject)) return false;
+        NativeObject that = (NativeObject) o;
+        return Objects.equals(pointer, that.pointer);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(pointer);
     }
 }
