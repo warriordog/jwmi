@@ -19,8 +19,8 @@ public class JWMI {
         WinNT.HRESULT hresult = WMIWrapper.INSTANCE.openCOM();
 
         // check for errors
-        if (hresult.longValue() != WMIWrapper.S_OK) {
-            throw new WMIException("Unable to open COM: 0x" + Long.toHexString(hresult.longValue()), hresult);
+        if (hresult.intValue() != WMIWrapper.S_OK) {
+            throw new WMIException("Unable to open COM: 0x" + Integer.toHexString(hresult.intValue()), hresult);
         }
     }
 
@@ -34,10 +34,10 @@ public class JWMI {
 
         // create instance
         WinNT.HRESULT hresult = WMIWrapper.INSTANCE.createLocator(locatorRef);
-        if (hresult.longValue() == WMIWrapper.S_OK) {
+        if (hresult.intValue() == WMIWrapper.S_OK) {
             return new WbemLocator(locatorRef.getValue());
         } else {
-            throw new WMIException("Error creating locator: 0x" + Long.toHexString(hresult.longValue()), hresult);
+            throw new WMIException("Error creating locator: 0x" + Integer.toHexString(hresult.intValue()), hresult);
         }
     }
 

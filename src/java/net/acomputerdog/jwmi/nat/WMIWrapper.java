@@ -20,29 +20,34 @@ public interface WMIWrapper extends StdCallLibrary {
     /**
      * General HRESULT value for success
      */
-    long S_OK = 0;
+    int S_OK = 0;
 
     /**
      * General HRESULT value for an invalid argument (usually null)
      *
      * Note: null BSTR arguments will not trigger this error, see WBEM_E_INVALID_PARAMETER
      */
-    long E_INVALIDARG = 0x80070057;
+    int E_INVALIDARG = 0x80070057;
 
     /**
      * wbem HRESULT value for success
      */
-    long WBEM_S_NO_ERROR = 0;
+    int WBEM_S_NO_ERROR = 0;
 
     /**
      * wbem HRESULT value for false, but used to indicate that we have reached the end of an enumeration.
      */
-    long WBEM_S_FALSE = 1;
+    int WBEM_S_FALSE = 1;
 
     /**
      * wbem HRESULT value for an invalid argument
      */
-    long WBEM_E_INVALID_PARAMETER = 0x80041008;
+    int WBEM_E_INVALID_PARAMETER = 0x80041008;
+
+    /**
+     * wbem HRESULT for access denied
+     */
+    int WBEM_E_ACCESS_DENIED = 0x80041003;
 
     /**
      * Initializes the COM library, sets security, and opens a connection

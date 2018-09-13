@@ -63,12 +63,12 @@ public class EnumWbemClassObject extends ReleasableNativeObject implements Itera
         WinNT.HRESULT result = WMIWrapper.INSTANCE.IEnumWbemClassObject_Next(this.getPointer(), clsObj, count);
 
         // If it did not return a value or hit the end, then it failed
-        if (result.longValue() != WMIWrapper.WBEM_S_NO_ERROR && result.longValue() != WMIWrapper.WBEM_S_FALSE) {
-            throw new WMIException("Error getting next object: 0x" + Long.toHexString(result.longValue()), result);
+        if (result.intValue() != WMIWrapper.WBEM_S_NO_ERROR && result.intValue() != WMIWrapper.WBEM_S_FALSE) {
+            throw new WMIException("Error getting next object: 0x" + Integer.toHexString(result.intValue()), result);
         }
 
         // If we got something, then it is the next value.  Otherwise set next to null.
-        if (count.getValue().longValue() > 0) {
+        if (count.getValue().intValue() > 0) {
             next = new WbemClassObject(clsObj.getValue());
         } else {
             next = null;

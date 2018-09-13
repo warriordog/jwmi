@@ -153,7 +153,7 @@ namespace libwmi {
 
         if (FAILED(hr)) {
             #ifdef LIBWMI_DEBUG
-            cout << "Query for operating system name failed. Error code = 0x" << hex << hr << endl;
+            cout << "Query for failed. Error code = 0x" << hex << hr << endl;
             #endif
             return hr;
         }

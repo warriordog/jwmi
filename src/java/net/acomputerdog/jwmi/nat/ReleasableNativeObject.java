@@ -13,7 +13,7 @@ public abstract class ReleasableNativeObject extends NativeObject implements Rel
     public void release() {
         WinNT.HRESULT hresult = WMIWrapper.INSTANCE.IUnknown_Release(getPointer());
 
-        if (hresult.longValue() != WMIWrapper.S_OK) {
+        if (hresult.intValue() != WMIWrapper.S_OK) {
             throw new WMIException("WMI error occurred: " + hresult.toString(), hresult);
         }
     }

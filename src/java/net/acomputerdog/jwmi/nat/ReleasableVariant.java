@@ -33,8 +33,8 @@ public class ReleasableVariant extends Variant.VARIANT implements Releasable {
         // clear the variant
         WinNT.HRESULT hresult = WMIWrapper.INSTANCE.ClearVariant(getPointer());
 
-        if (hresult.longValue() != WMIWrapper.S_OK) {
-            throw new WMIException("Exception clearing variant: 0x" + Long.toHexString(hresult.longValue()), hresult);
+        if (hresult.intValue() != WMIWrapper.S_OK) {
+            throw new WMIException("Exception clearing variant: 0x" + Integer.toHexString(hresult.intValue()), hresult);
         }
     }
 }

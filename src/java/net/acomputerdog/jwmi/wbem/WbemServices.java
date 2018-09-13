@@ -40,10 +40,10 @@ public class WbemServices extends ReleasableNativeObject {
         // execute query
         HRESULT result = WMIWrapper.INSTANCE.IWbemServices_ExecQuery(this.getPointer(), bstr, clsObjEnum);
 
-        if (result.longValue() == WMIWrapper.S_OK) {
+        if (result.intValue() == WMIWrapper.S_OK) {
             return new EnumWbemClassObject(clsObjEnum.getValue());
         } else {
-            throw new WMIException("WMI error occurred: 0x" + Long.toHexString(result.longValue()), result);
+            throw new WMIException("WMI error occurred: 0x" + Integer.toHexString(result.intValue()), result);
         }
     }
 

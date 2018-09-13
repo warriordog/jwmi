@@ -32,10 +32,10 @@ public class WbemClassObject extends ReleasableNativeObject{
         // get value
         WinNT.HRESULT result = WMIWrapper.INSTANCE.IWbemClassObject_Get(this.getPointer(),  new WTypes.BSTR(name), variant.getPointer());
 
-        if (result.longValue() == WMIWrapper.S_OK) {
+        if (result.intValue() == WMIWrapper.S_OK) {
             return variant;
         } else {
-            throw new WMIException("WMI error occurred: 0x" + Long.toHexString(result.longValue()), result);
+            throw new WMIException("WMI error occurred: 0x" + Integer.toHexString(result.intValue()), result);
         }
     }
 

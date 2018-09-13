@@ -1,8 +1,6 @@
 #ifndef WMI_WRAPPER_H
 #define WMI_WRAPPER_H
 
-#define LIBWMI_DEBUG
-
 #include "libwmi_dllspec.h"
 #include <comdef.h>
 #include <wbemidl.h>

@@ -33,7 +33,7 @@ public class WbemLocator extends ReleasableNativeObject {
         // connect to namespace
         HRESULT result = WMIWrapper.INSTANCE.IWbemLocator_ConnectServer(this.getPointer(),  new BSTR(namespace), servicesRef);
 
-        if (result.longValue() == WMIWrapper.S_OK) {
+        if (result.intValue() == WMIWrapper.S_OK) {
             // create services instance
             WbemServices services = new WbemServices(servicesRef.getValue());
 
@@ -41,10 +41,10 @@ public class WbemLocator extends ReleasableNativeObject {
                 // set service security
                 result = WMIWrapper.INSTANCE.setSecurity(services.getPointer());
 
-                if (result.longValue() == WMIWrapper.S_OK) {
+                if (result.intValue() == WMIWrapper.S_OK) {
                     return services;
                 } else {
-                    throw new WMIException("Unable to set security on WbemServices: 0x" + Long.toHexString(result.longValue()), result);
+                    throw new WMIException("Unable to set security on WbemServices: 0x" + Integer.toHexString(result.intValue()), result);
                 }
             } catch (Throwable t) {
 
@@ -53,7 +53,7 @@ public class WbemLocator extends ReleasableNativeObject {
                 throw t;
             }
         } else {
-            throw new WMIException("WMI error occurred: 0x" + Long.toHexString(result.longValue()), result);
+            throw new WMIException("WMI error occurred: 0x" + Integer.toHexString(result.intValue()), result);
         }
     }
 }
