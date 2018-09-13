@@ -27,6 +27,8 @@ public class JWMI {
     /**
      * Creates a new instance of WbemLocator
      *
+     * @throws WMIException if native error occurs
+     *
      * @return Returns a new WbemLocator
      */
     public WbemLocator createWbemLocator() {
@@ -38,6 +40,16 @@ public class JWMI {
             return new WbemLocator(locatorRef.getValue());
         } else {
             throw new WMIException("Error creating locator: 0x" + Integer.toHexString(hresult.intValue()), hresult);
+        }
+    }
+
+    @Override
+    protected void finalize() {
+        // close when instance is GC'ed
+        WinNT.HRESULT hresult = WMIWrapper.INSTANCE.closeCOM();
+
+        if (hresult.intValue() != WMIWrapper.S_OK) {
+            System.err.println("Error closing COM: 0x" + Integer.toHexString(hresult.intValue()));
         }
     }
 
