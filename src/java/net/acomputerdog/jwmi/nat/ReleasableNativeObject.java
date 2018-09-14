@@ -46,7 +46,7 @@ public abstract class ReleasableNativeObject extends NativeObject implements Rel
     @Override
     protected void finalize() {
         if (!released) {
-            System.err.println("NativeObject was not released: " + this.getPointer().toString());
+            System.err.printf("NativeObject was not released: %s %s\n", this.getClass().getName(), this.getPointer().toString());
 
             this.release();
         }

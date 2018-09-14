@@ -6,6 +6,7 @@ import net.acomputerdog.jwmi.nat.ReleasableVariant;
 import net.acomputerdog.jwmi.nat.WMIWrapper;
 import net.acomputerdog.jwmi.wbem.EnumWbemClassObject;
 import net.acomputerdog.jwmi.wbem.WbemClassObject;
+import net.acomputerdog.jwmi.wbem.WbemLocator;
 import net.acomputerdog.jwmi.wbem.WbemServices;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -20,11 +21,13 @@ public class BasicTests {
 
     private static final String WINMGMT_QUERY = "SELECT * FROM Win32_Service WHERE Name='Winmgmt'";
 
+    private static WbemLocator locator;
     private static WbemServices services;
 
     @BeforeAll
     public static void init() {
-        services = JWMI.getInstance().createWbemLocator().connectServer("root\\CIMV2");
+        locator = JWMI.getInstance().createWbemLocator();
+        services = locator.connectServer("root\\CIMV2");
     }
 
     @Test
@@ -105,5 +108,6 @@ public class BasicTests {
     @AfterAll
     public static void finish() {
         services.release();
+        locator.release();
     }
 }

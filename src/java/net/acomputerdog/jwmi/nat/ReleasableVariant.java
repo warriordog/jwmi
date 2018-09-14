@@ -56,7 +56,7 @@ public class ReleasableVariant extends Variant.VARIANT implements Releasable {
     @Override
     protected void finalize() {
         if (!released) {
-            System.err.println("Variant was not cleared: " + this.getPointer().toString());
+            System.err.printf("Variant was not cleared: %s\n", this.getPointer().toString());
 
             this.release();
         }

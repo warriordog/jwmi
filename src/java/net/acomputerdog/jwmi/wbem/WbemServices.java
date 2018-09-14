@@ -38,12 +38,12 @@ public class WbemServices extends ReleasableNativeObject {
         BSTR bstr = new BSTR(query); // convert query to correct string type
 
         // execute query
-        HRESULT result = WMIWrapper.INSTANCE.IWbemServices_ExecQuery(this.getPointer(), bstr, clsObjEnum);
+        HRESULT hresult = WMIWrapper.INSTANCE.IWbemServices_ExecQuery(this.getPointer(), bstr, clsObjEnum);
 
-        if (result.intValue() == WMIWrapper.S_OK) {
+        if (hresult.intValue() == WMIWrapper.S_OK) {
             return new EnumWbemClassObject(clsObjEnum.getValue());
         } else {
-            throw new WMIException("Error executing query: 0x" + Integer.toHexString(result.intValue()), result, this);
+            throw new WMIException(String.format("Error executing query: 0x%08X\n", hresult.intValue()), hresult, this);
         }
     }
 

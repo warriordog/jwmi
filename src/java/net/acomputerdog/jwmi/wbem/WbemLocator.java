@@ -31,20 +31,20 @@ public class WbemLocator extends ReleasableNativeObject {
         PointerByReference servicesRef = new PointerByReference(); // will hold result
 
         // connect to namespace
-        HRESULT result = WMIWrapper.INSTANCE.IWbemLocator_ConnectServer(this.getPointer(),  new BSTR(namespace), servicesRef);
+        HRESULT hresult = WMIWrapper.INSTANCE.IWbemLocator_ConnectServer(this.getPointer(),  new BSTR(namespace), servicesRef);
 
-        if (result.intValue() == WMIWrapper.S_OK) {
+        if (hresult.intValue() == WMIWrapper.S_OK) {
             // create services instance
             WbemServices services = new WbemServices(servicesRef.getValue());
 
             try {
                 // set service security
-                result = WMIWrapper.INSTANCE.setSecurity(services.getPointer());
+                hresult = WMIWrapper.INSTANCE.setSecurity(services.getPointer());
 
-                if (result.intValue() == WMIWrapper.S_OK) {
+                if (hresult.intValue() == WMIWrapper.S_OK) {
                     return services;
                 } else {
-                    throw new WMIException("Unable to set security on WbemServices: 0x" + Integer.toHexString(result.intValue()), result, this);
+                    throw new WMIException(String.format("Unable to set security on WbemServices: 0x%08X\n", hresult.intValue()), hresult, this);
                 }
             } catch (Throwable t) {
 
@@ -53,7 +53,7 @@ public class WbemLocator extends ReleasableNativeObject {
                 throw t;
             }
         } else {
-            throw new WMIException("Unable to create IWbemServices: 0x" + Integer.toHexString(result.intValue()), result, this);
+            throw new WMIException(String.format("Unable to create IWbemServices: 0x%08X\n", hresult.intValue()), hresult, this);
         }
     }
 }

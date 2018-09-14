@@ -30,12 +30,12 @@ public class WbemClassObject extends ReleasableNativeObject{
         ReleasableVariant variant = new ReleasableVariant(); // will hold result
 
         // get value
-        WinNT.HRESULT result = WMIWrapper.INSTANCE.IWbemClassObject_Get(this.getPointer(),  new WTypes.BSTR(name), variant.getPointer());
+        WinNT.HRESULT hresult = WMIWrapper.INSTANCE.IWbemClassObject_Get(this.getPointer(),  new WTypes.BSTR(name), variant.getPointer());
 
-        if (result.intValue() == WMIWrapper.S_OK) {
+        if (hresult.intValue() == WMIWrapper.S_OK) {
             return variant;
         } else {
-            throw new WMIException("Error getting property value: 0x" + Integer.toHexString(result.intValue()), result, this);
+            throw new WMIException(String.format("Error getting property value: 0x%08X\n", hresult.intValue()), hresult, this);
         }
     }
 

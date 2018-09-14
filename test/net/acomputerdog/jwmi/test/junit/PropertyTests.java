@@ -3,6 +3,7 @@ package net.acomputerdog.jwmi.test.junit;
 import net.acomputerdog.jwmi.JWMI;
 import net.acomputerdog.jwmi.nat.ReleasableVariant;
 import net.acomputerdog.jwmi.wbem.WbemClassObject;
+import net.acomputerdog.jwmi.wbem.WbemLocator;
 import net.acomputerdog.jwmi.wbem.WbemServices;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -14,12 +15,14 @@ public class PropertyTests {
     private static final String SERVICES_QUERY = "SELECT * FROM Win32_Service";
     private static final String WINMGMT_QUERY = "SELECT * FROM Win32_Service WHERE Name='Winmgmt'";
 
+    private static WbemLocator locator;
     private static WbemServices services;
     private static WbemClassObject classObject;
 
     @BeforeAll
     public static void init() {
-        services = JWMI.getInstance().createWbemLocator().connectServer("root\\CIMV2");
+        locator = JWMI.getInstance().createWbemLocator();
+        services = locator.connectServer("root\\CIMV2");
         classObject = services.execQuerySingle(WINMGMT_QUERY);
     }
 
@@ -67,5 +70,6 @@ public class PropertyTests {
     public static void finish() {
         classObject.release();
         services.release();
+        locator.release();
     }
 }
