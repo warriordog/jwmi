@@ -17,25 +17,29 @@ namespace libwmi {
             return hr;
         }
         
-        // setup security
-        hr =  CoInitializeSecurity(
-            NULL,                        // Security descriptor    
-            -1,                          // COM negotiates authentication service
-            NULL,                        // Authentication services
-            NULL,                        // Reserved
-            RPC_C_AUTHN_LEVEL_DEFAULT,   // Default authentication level for proxies
-            RPC_C_IMP_LEVEL_IMPERSONATE, // Default Impersonation level for proxies
-            NULL,                        // Authentication info
-            EOAC_NONE,                   // Additional capabilities of the client or server
-            NULL                         // Reserved
-        );
+        // S_FALSE is returned if COM is already initialized.  Setting security again will fail.
+        if (hr != S_FALSE) {
+            // setup security
+            hr = CoInitializeSecurity(
+                NULL,                        // Security descriptor    
+                -1,                          // COM negotiates authentication service
+                NULL,                        // Authentication services
+                NULL,                        // Reserved
+                RPC_C_AUTHN_LEVEL_DEFAULT,   // Default authentication level for proxies
+                RPC_C_IMP_LEVEL_IMPERSONATE, // Default Impersonation level for proxies
+                NULL,                        // Authentication info
+                EOAC_NONE,                   // Additional capabilities of the client or server
+                NULL                         // Reserved
+            );
 
-        if (FAILED(hr)) {
-            #ifdef LIBWMI_DEBUG
-            cout << "Failed to initialize security. Error code = 0x" << hex << hr << endl;
-            #endif
-            CoUninitialize();
-            return hr;
+            // RPC_E_TOO_LATE is returned if the process already set security somewhere else.
+            if (FAILED(hr) && hr != RPC_E_TOO_LATE) {
+                #ifdef LIBWMI_DEBUG
+                cout << "Failed to initialize security. Error code = 0x" << hex << hr << endl;
+                #endif
+                CoUninitialize();
+                return hr;
+            }
         }
         
         return S_OK;
