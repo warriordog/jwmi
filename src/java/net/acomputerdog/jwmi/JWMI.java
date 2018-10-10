@@ -13,7 +13,7 @@ import net.acomputerdog.jwmi.wbem.WbemLocator;
  * Should be used via JWMI.getInstance()
  */
 public class JWMI {
-    private static JWMI INSTANCE;
+    private static ThreadLocal<JWMI> INSTANCE = new ThreadLocal<>();
 
     // private constructor, only one instance
     private JWMI() {
@@ -65,10 +65,13 @@ public class JWMI {
      * @return Return the JWMI instance
      */
     public static JWMI getInstance() {
-        if (INSTANCE != null) {
-            return INSTANCE;
+        JWMI jwmi = INSTANCE.get();
+        if (jwmi != null) {
+            return jwmi;
         } else {
-            return (INSTANCE = new JWMI());
+            jwmi = new JWMI();
+            INSTANCE.set(jwmi);
+            return jwmi;
         }
     }
 }

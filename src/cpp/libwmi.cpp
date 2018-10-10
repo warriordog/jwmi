@@ -58,7 +58,7 @@ namespace libwmi {
 
         if (FAILED(hr)) {
             #ifdef LIBWMI_DEBUG
-            cout << "Failed to create IWbemLocator object. Err code = 0x" << hex << hr << endl;
+            cout << "Failed to create IWbemLocator object. Error code = 0x" << hex << hr << endl;
             #endif
             return hr;
         }
