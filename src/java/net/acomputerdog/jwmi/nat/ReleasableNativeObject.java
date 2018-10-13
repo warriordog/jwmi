@@ -34,7 +34,7 @@ public abstract class ReleasableNativeObject extends NativeObject implements Rel
         WinNT.HRESULT hresult = WMIWrapper.INSTANCE.IUnknown_Release(this.getPointer());
 
         if (hresult.intValue() != WMIWrapper.S_OK) {
-            throw new WMIException("Error releasing object: 0x" + Integer.toHexString(hresult.intValue()), hresult, this);
+            throw new WMIException(String.format("Error releasing object: 0x%08X\n", hresult.intValue()), hresult, this);
         }
     }
 
